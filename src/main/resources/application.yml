@@ -1,0 +1,29 @@
+server:
+  port: 9070
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:3432/automobile_db
+    username: automobile_user
+    password: PasswordAutomobile1
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/master.xml
+
+  application:
+    name: automobile-bavaria-be
+
+  jackson:
+    serialization:
+      indent_output: true
+
+logging:
+  level:
+    root: INFO
+    com.automobilebavaria.backend: DEBUG
