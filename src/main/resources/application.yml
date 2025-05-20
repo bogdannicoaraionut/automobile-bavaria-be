@@ -27,3 +27,7 @@ logging:
   level:
     root: INFO
     com.automobilebavaria.backend: DEBUG
+
+jwt:
+  secret: my-very-long-secret-key-with-at-least-32-characters
+  expirationMs: 86400000
