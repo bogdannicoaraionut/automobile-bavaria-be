@@ -8,4 +8,5 @@
     <include file="/db/changelog/0001-create-my-user-table.xml"/>
     <include file="/db/changelog/0002-create-role-table.xml"/>
     <include file="/db/changelog/0003-create-user-roles.xml"/>
+    <include file="/db/changelog/0004-add-more-infos-to-my-user.xml"/>
 </databaseChangeLog>

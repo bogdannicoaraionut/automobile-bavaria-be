@@ -1,6 +1,6 @@
 package com.automobilebavaria.backend.controller;
 
-import com.automobilebavaria.backend.dto.JwtResponse;
+import com.automobilebavaria.backend.dto.JwtLoginResponse;
 import com.automobilebavaria.backend.dto.LoginRequest;
 import com.automobilebavaria.backend.utils.JwtUtils;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +27,23 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtLoginResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.userName(), loginRequest.password()));
+                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String jwt = jwtUtils.generateToken((UserDetails) authentication.getPrincipal());
 
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        return ResponseEntity.ok(new JwtLoginResponse(jwt, userDetails.getUsername()));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        SecurityContextHolder.clearContext();
+
+        return ResponseEntity.ok().build();
     }
 }
