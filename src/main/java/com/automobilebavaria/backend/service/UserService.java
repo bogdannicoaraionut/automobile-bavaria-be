@@ -1,11 +1,14 @@
 package com.automobilebavaria.backend.service;
 
 import com.automobilebavaria.backend.dto.CreateUserRequest;
+import com.automobilebavaria.backend.dto.UserDTO;
 import com.automobilebavaria.backend.entity.User;
 import com.automobilebavaria.backend.exception.AccountException;
+import com.automobilebavaria.backend.exception.EntityNotFoundAlertException;
 import com.automobilebavaria.backend.mapper.UserMapper;
 import com.automobilebavaria.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +20,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public User createUser(CreateUserRequest request) {
-        if (userRepository.existsByUsername(request.email())) {
+    @NonNull
+    public User createUser(@NonNull CreateUserRequest request) {
+        if (Boolean.TRUE.equals(userRepository.existsByEmail(request.email()))) {
             throw new AccountException("Account with this email already exists");
         }
         User user = userMapper.toUser(request);
@@ -28,6 +32,14 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @NonNull
+    public UserDTO getUserInfo(@NonNull String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundAlertException("User not found username: " + username, "user"));
+
+        return userMapper.toUserDTO(user);
     }
 
 

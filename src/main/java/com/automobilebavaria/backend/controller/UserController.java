@@ -2,6 +2,7 @@ package com.automobilebavaria.backend.controller;
 
 import com.automobilebavaria.backend.dto.CreateUserRequest;
 import com.automobilebavaria.backend.dto.LoginRequest;
+import com.automobilebavaria.backend.dto.UserDTO;
 import com.automobilebavaria.backend.entity.User;
 import com.automobilebavaria.backend.service.UserService;
 import jakarta.validation.Valid;
@@ -25,8 +26,13 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    private ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/users/{username}")
+    public ResponseEntity<UserDTO> getUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserInfo(username));
     }
 }

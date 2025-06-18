@@ -1,6 +1,7 @@
 package com.automobilebavaria.backend.mapper;
 
 import com.automobilebavaria.backend.dto.CreateUserRequest;
+import com.automobilebavaria.backend.dto.UserDTO;
 import com.automobilebavaria.backend.entity.User;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
 
+    @Mapping(target = "password", ignore = true)
     public abstract User toUser(CreateUserRequest createUserRequest);
 
     @AfterMapping
@@ -22,4 +24,7 @@ public abstract class UserMapper {
 
         user.setPassword(passwordEncoder.encode(request.password()));
     }
+
+    public abstract UserDTO toUserDTO(User user);
+
 }
