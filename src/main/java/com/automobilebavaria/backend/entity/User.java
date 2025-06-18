@@ -6,10 +6,10 @@ import lombok.Setter;
 
 import java.util.Set;
 
-@Getter
-@Setter
 @Entity
 @Table(name="my_user")
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -42,5 +42,22 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        return id != null && id.equals(((User) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
+    }
 
 }
