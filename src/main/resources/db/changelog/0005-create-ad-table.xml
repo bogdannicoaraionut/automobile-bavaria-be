@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="6" author="bogdan">
+        <createTable tableName="ad">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brand" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="doors" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fuel_consumption" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="year" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mileage" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="ad"
+                baseColumnNames="user_id"
+                referencedTableName="my_user"
+                referencedColumnNames="id"
+                constraintName="fk_ad_my_user"
+                onDelete="CASCADE"/>
+</changeSet>
+
+</databaseChangeLog>

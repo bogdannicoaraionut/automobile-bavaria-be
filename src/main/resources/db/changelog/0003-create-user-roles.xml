@@ -21,7 +21,8 @@
                 baseColumnNames="user_id"
                 referencedTableName="my_user"
                 referencedColumnNames="id"
-                constraintName="fk_user_roles_user"/>
+                constraintName="fk_user_roles_user"
+                onDelete="CASCADE"/>
 
         <addForeignKeyConstraint
                 baseTableName="user_roles"

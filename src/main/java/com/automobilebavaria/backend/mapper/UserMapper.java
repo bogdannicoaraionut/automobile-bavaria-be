@@ -13,7 +13,7 @@ public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
 
-    @Mapping(target = "password", ignore = true)
+//    @Mapping(target = "password", ignore = true)
     public abstract User toUser(CreateUserRequest createUserRequest);
 
     @AfterMapping
