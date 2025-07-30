@@ -31,7 +31,7 @@ public class AdController {
         return ResponseEntity.ok().body(adService.getAllAds());
     }
 
-    @GetMapping("users/{userId}/ads")
+    @GetMapping("users/ads")
     public ResponseEntity<List<AdDTO>> getUserAds(@Parameter(hidden = true) @AuthenticatedUser User user) {
         return ResponseEntity.ok().body(adService.getUserAds(user));
     }
@@ -41,7 +41,7 @@ public class AdController {
         return ResponseEntity.ok().body(adService.getAd(id));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/ads/{id}")
     public ResponseEntity<Void> deleteAd(@PathVariable Long id) {
         adService.deleteAd(id);
         return ResponseEntity.noContent().build();
