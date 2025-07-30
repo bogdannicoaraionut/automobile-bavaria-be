@@ -1,27 +1,25 @@
 package com.automobilebavaria.backend.service;
 
+import com.automobilebavaria.backend.repository.CarRepository;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import org.springframework.stereotype.Service;
 
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
+import java.util.List;
 
+@Service
+@AllArgsConstructor
 public class CarService {
 
-    private final String API_KEY = "DA0bszFV++KQl9FMQbk0Hg==HmQ5Pz01dA3iAyxf";
-    private final String API_URL = "https://api.api-ninjas.com/v1/carmakes";
+    private final CarRepository carRepository;
 
-    public String getCarMakers() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Api-Key", API_KEY);
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                API_URL, HttpMethod.GET, entity, String.class
-        );
-
-        return response.getBody();
+    @NonNull
+    public List<String> getCarMakers() {
+        return carRepository.findDistinctMakers();
     }
 
+    @NonNull
+    public List<String> getCarMakerModels(@NonNull String maker) {
+        return carRepository.findDistinctModelsByMaker(maker);
+    };
 }

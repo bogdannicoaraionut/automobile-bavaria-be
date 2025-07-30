@@ -29,5 +29,5 @@ logging:
     com.automobilebavaria.backend: DEBUG
 
 jwt:
-  secret: my-very-long-secret-key-with-at-least-32-characters
+  secret: secret-for-my-app-automobile-bavaria-backend-application
   expirationMs: 86400000

@@ -11,4 +11,5 @@
     <include file="/db/changelog/0004-add-more-infos-to-my-user.xml"/>
     <include file="/db/changelog/001-create-sequence.xml"/>
     <include file="/db/changelog/0005-create-ad-table.xml"/>
+    <include file="/db/changelog/0006-create-car-table.xml"/>
 </databaseChangeLog>

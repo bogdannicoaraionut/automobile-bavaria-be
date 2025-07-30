@@ -3,6 +3,7 @@ package com.automobilebavaria.backend.dto;
 import java.time.Instant;
 
 public record AdDTO(
+        Long id,
         String title,
         String brand,
         String model,
