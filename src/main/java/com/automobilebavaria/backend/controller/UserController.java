@@ -2,6 +2,7 @@ package com.automobilebavaria.backend.controller;
 
 import com.automobilebavaria.backend.dto.CreateUserRequest;
 import com.automobilebavaria.backend.dto.LoginRequest;
+import com.automobilebavaria.backend.dto.UpdateUserRequest;
 import com.automobilebavaria.backend.dto.UserDTO;
 import com.automobilebavaria.backend.entity.User;
 import com.automobilebavaria.backend.service.UserService;
@@ -19,7 +20,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/create-account")
+    @PostMapping("/users")
     public ResponseEntity<User> createAccount(@Valid @RequestBody CreateUserRequest request) {
         User newUser = userService.createUser(request);
         return ResponseEntity.ok(newUser);
@@ -34,5 +35,11 @@ public class UserController {
     @GetMapping("/users/{username}")
     public ResponseEntity<UserDTO> getUserInfo(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserInfo(username));
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateAccount(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
+        User newUser = userService.updateUser(id, request);
+        return ResponseEntity.ok(newUser);
     }
 }

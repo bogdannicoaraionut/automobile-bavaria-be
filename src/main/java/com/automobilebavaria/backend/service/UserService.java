@@ -1,6 +1,7 @@
 package com.automobilebavaria.backend.service;
 
 import com.automobilebavaria.backend.dto.CreateUserRequest;
+import com.automobilebavaria.backend.dto.UpdateUserRequest;
 import com.automobilebavaria.backend.dto.UserDTO;
 import com.automobilebavaria.backend.entity.Role;
 import com.automobilebavaria.backend.entity.User;
@@ -40,7 +41,16 @@ public class UserService {
         Role defaultRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Default role not found"));
         user.setRoles(new HashSet<>(Set.of(defaultRole)));
-        userRepository.save(user);
+
+        return userRepository.save(user);
+    }
+
+    @NonNull
+    public User updateUser(@NonNull Long id, @NonNull UpdateUserRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundAlertException("User not found id: " + id, "user"));
+
+        userMapper.updateFromRequest(request, user);
 
         return userRepository.save(user);
     }
