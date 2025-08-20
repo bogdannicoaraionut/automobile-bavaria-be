@@ -1,6 +1,7 @@
 package com.automobilebavaria.backend.mapper;
 
 import com.automobilebavaria.backend.dto.CreateUserRequest;
+import com.automobilebavaria.backend.dto.UpdateUserRequest;
 import com.automobilebavaria.backend.dto.UserDTO;
 import com.automobilebavaria.backend.entity.User;
 import org.mapstruct.*;
@@ -27,4 +28,5 @@ public abstract class UserMapper {
 
     public abstract UserDTO toUserDTO(User user);
 
+    public abstract void updateFromRequest(UpdateUserRequest request, @MappingTarget User user);
 }

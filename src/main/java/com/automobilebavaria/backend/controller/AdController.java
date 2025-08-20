@@ -31,8 +31,8 @@ public class AdController {
         return ResponseEntity.ok().body(adService.getAllAds());
     }
 
-    @GetMapping("users/ads")
-    public ResponseEntity<List<AdDTO>> getUserAds(@Parameter(hidden = true) @AuthenticatedUser User user) {
+    @GetMapping("users/{id}/ads")
+    public ResponseEntity<List<AdDTO>> getUserAds(@PathVariable Long id, @Parameter(hidden = true) @AuthenticatedUser User user) {
         return ResponseEntity.ok().body(adService.getUserAds(user));
     }
 

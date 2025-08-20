@@ -11,8 +11,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public abstract class AdMapper {
 
-//    @Mapping(target = "user", ignore = true)
-//    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     public abstract Ad toAd(CreateAdRequest createAdRequest);
 
     public abstract List<AdDTO> toAdDTOs(List<Ad> ads);
