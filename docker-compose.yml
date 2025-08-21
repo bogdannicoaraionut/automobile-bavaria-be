@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: automobile_db
+    environment:
+      POSTGRES_DB: automobile_db
+      POSTGRES_USER: automobile_user
+      POSTGRES_PASSWORD: PasswordAutomobile1
+    ports:
+      - "5430:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: automobile_be
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/automobile_db
+      SPRING_DATASOURCE_USERNAME: automobile_user
+      SPRING_DATASOURCE_PASSWORD: PasswordAutomobile1
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+    ports:
+      - "9071:9070"
+    depends_on:
+      - db
+
+volumes:
+  db_data:

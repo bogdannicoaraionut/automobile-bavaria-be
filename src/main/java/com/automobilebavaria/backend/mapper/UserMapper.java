@@ -21,7 +21,6 @@ public abstract class UserMapper {
     protected void customizeUser(CreateUserRequest request, @MappingTarget User user) {
         int atIndex = request.email().indexOf('@');
         user.setUsername(atIndex > 0 ? request.email().substring(0, atIndex) : request.email());
-        user.setEmail(request.email());
 
         user.setPassword(passwordEncoder.encode(request.password()));
     }
