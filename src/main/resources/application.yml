@@ -1,16 +1,16 @@
 server:
-  port: 9070
+  port: ${SERVER_PORT:9070} # fallback to 9070 locally
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:3432/automobile_db
-    username: automobile_user
-    password: PasswordAutomobile1
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:3432/automobile_db}
+    username: ${SPRING_DATASOURCE_USERNAME:automobile_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:PasswordAutomobile1}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:none}
     show-sql: true
 
   liquibase:
