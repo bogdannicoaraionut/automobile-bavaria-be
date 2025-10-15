@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200", "https://auto-bavaria-ifbc8xzi0-bogdan-nicoaras-projects.vercel.app")
+                .allowedOrigins("http://localhost:4200", "https://auto-bavaria-mh7xw13ld-bogdan-nicoaras-projects.vercel.app")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
