@@ -4,7 +4,6 @@ import com.automobilebavaria.backend.dto.AdDTO;
 import com.automobilebavaria.backend.dto.CreateAdRequest;
 import com.automobilebavaria.backend.entity.Ad;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;

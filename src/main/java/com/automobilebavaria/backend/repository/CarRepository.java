@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car, Long> {
-    @Query("SELECT DISTINCT c.maker FROM Car c")
-    List<String> findDistinctMakers();
+    @Query("SELECT DISTINCT c FROM Car c")
+    List<Car> findDistinctMakers();
 
-    @Query("SELECT DISTINCT c.model FROM Car c WHERE LOWER(c.maker) = LOWER(:maker)")
-    List<String> findDistinctModelsByMaker(String maker);
+    @Query("SELECT DISTINCT c FROM Car c WHERE LOWER(c.maker) = LOWER(:maker)")
+    List<Car> findDistinctModelsByMaker(String maker);
 }
