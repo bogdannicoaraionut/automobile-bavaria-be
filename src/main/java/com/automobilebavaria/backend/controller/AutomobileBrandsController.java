@@ -1,6 +1,8 @@
 package com.automobilebavaria.backend.controller;
 
 import com.automobilebavaria.backend.dto.CarApiDTO;
+import com.automobilebavaria.backend.dto.CarMakerDTO;
+import com.automobilebavaria.backend.dto.CarModelDTO;
 import com.automobilebavaria.backend.service.CarService;
 import com.automobilebavaria.backend.service.CarSyncService;
 import lombok.AllArgsConstructor;
@@ -24,12 +26,12 @@ public class AutomobileBrandsController {
     }
 
     @GetMapping("/makers")
-    public ResponseEntity<List<String>> getAllMakers() {
+    public ResponseEntity<List<CarMakerDTO>> getAllMakers() {
         return ResponseEntity.ok().body(carService.getCarMakers());
     }
 
     @GetMapping("/makers/{maker}/models")
-    public ResponseEntity<List<String>> getAllMakerModels(@PathVariable String maker) {
+    public ResponseEntity<List<CarModelDTO>> getAllMakerModels(@PathVariable String maker) {
         return ResponseEntity.ok().body(carService.getCarMakerModels(maker));
     }
 }
