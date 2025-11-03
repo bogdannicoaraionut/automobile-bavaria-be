@@ -11,6 +11,15 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     @Query("SELECT DISTINCT c FROM Car c")
     List<Car> findDistinctMakers();
 
-    @Query("SELECT DISTINCT c FROM Car c WHERE LOWER(c.maker) = LOWER(:maker)")
+    @Query(value = """
+      SELECT * FROM car c
+      WHERE LOWER(c.maker) = LOWER(:maker)
+      AND c.id IN (
+          SELECT MIN(id)
+          FROM car
+          WHERE LOWER(maker) = LOWER(:maker)
+          GROUP BY model
+      )
+      """, nativeQuery = true)
     List<Car> findDistinctModelsByMaker(String maker);
 }
