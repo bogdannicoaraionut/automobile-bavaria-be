@@ -1,0 +1,11 @@
+.git
+.gitignore
+target
+**/target
+Dockerfile*
+docker-compose*.yml
+README.md
+*.iml
+.gradle
+.mvn/wrapper
+.idea
