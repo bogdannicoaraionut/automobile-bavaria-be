@@ -1,18 +1,42 @@
+# syntax=docker/dockerfile:1.7-labs
+
+########################
+# Build stage
+########################
 FROM maven:3.9.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Cache deps via .m2 (optional, if BuildKit is on)
-# RUN --mount=type=cache,target=/root/.m2 true
+# (optional) Make Maven honor container memory limits & be quiet but still show errors
+ENV MAVEN_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75"
 
 COPY pom.xml .
-# (removed go-offline)
 
+# Warm the local Maven cache (fast with BuildKit cache mount)
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn -B -q -e -DskipTests dependency:go-offline || true
+
+# Now add sources (invalidates cache only when src changes)
 COPY src ./src
-RUN mvn -B -q clean package -DskipTests
 
+# Actual build, cached .m2 between builds
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn -B -q clean package -DskipTests
+
+########################
+# Runtime stage
+########################
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
+
+# Copy the fat jar
 COPY --from=build /app/target/*.jar app.jar
-ENV JAVA_OPTS="-Xmx256m -Xms128m -XX:+UseSerialGC"
+
+# Prefer container-aware memory flags automatically picked up by JVM
+# You can still override at runtime with -e JAVA_TOOL_OPTIONS="..."
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75 -XX:+UseContainerSupport -XX:+UseSerialGC"
+
+# If your app listens on 9070 (per your compose), expose it
 EXPOSE 9070
-ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar app.jar"]
+
+# Use exec form; no shell needed
+ENTRYPOINT ["java","-jar","/app/app.jar"]
