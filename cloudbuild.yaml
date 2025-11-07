@@ -1,0 +1,42 @@
+steps:
+  # 1️⃣ Build the image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/automobile-be:$SHORT_SHA'
+      - '.'
+
+  # 2️⃣ Push it to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - push
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/automobile-be:$SHORT_SHA'
+
+  # 3️⃣ Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - automobile-be
+      - '--image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/automobile-be:$SHORT_SHA'
+      - '--region=${_REGION}'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=9070'
+      - '--memory=512Mi'
+      - '--cpu=1'
+      - '--set-env-vars'
+      - |
+        SPRING_DATASOURCE_URL=jdbc:postgresql://<DB_HOST>:5432/automobile_db,
+        SPRING_DATASOURCE_USERNAME=automobile_user,
+        SPRING_DATASOURCE_PASSWORD=changeMe,
+        SPRING_JPA_HIBERNATE_DDL_AUTO=none
+
+images:
+  - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/automobile-be:$SHORT_SHA'
+
+substitutions:
+  _REGION: europe-west1      # change to your region
+  _REPO: automobile          # your Artifact Registry name
