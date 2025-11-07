@@ -13,7 +13,8 @@ COPY pom.xml .
 
 # Warm the local Maven cache (fast with BuildKit cache mount)
 RUN --mount=type=cache,target=/root/.m2 \
-    mvn -B -q -e -DskipTests dependency:go-offline || true
+    mvn -B -q package -DskipTests
+
 
 # Now add sources (invalidates cache only when src changes)
 COPY src ./src
